@@ -397,6 +397,10 @@ class GithubBackend(Backend):
         issue = bug['id']
         if bug['labels']:
             bug_type = bug['labels'][0]['name']   # FIXME
+            for i in range(0, len(bug['labels'])):
+                labels.append (bug['labels'][i]['name']
+            self.set_labels(labels)
+            print labels
         else:
             bug_type = unicode('')
         summary = bug['title']
