@@ -394,15 +394,16 @@ class GithubBackend(Backend):
                  bug['updated_at'] + ' (ratelimit = ' +
                  str(self.remaining_ratelimit) + ")")
 
+        bug_type = unicode('') # There is no bug type with Github. Some labels are used as bug type.
         issue = bug['id']
+        labels_a = []
         if bug['labels']:
-            bug_type = bug['labels'][0]['name']   # FIXME
             for i in range(0, len(bug['labels'])):
-                labels.append (bug['labels'][i]['name']
-            self.set_labels(labels)
-            print labels
+                labels_a.append (bug['labels'][i]['name'])
+            labels=", ".join(labels_a)
         else:
-            bug_type = unicode('')
+            labels = unicode('')
+	printdbg(labels)
         summary = bug['title']
         desc = bug['body']
         submitted_by = self.__get_user(bug['user']['login'])
@@ -421,6 +422,8 @@ class GithubBackend(Backend):
         issue.set_status(bug['state'])
         issue.set_description(bug['body'])
         issue.set_web_link(bug['html_url'])
+
+        issue.set_labels(labels)
 
         try:
             if bug['closed_at']:
