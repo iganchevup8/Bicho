@@ -403,7 +403,6 @@ class GithubBackend(Backend):
             labels=", ".join(labels_a)
         else:
             labels = unicode('')
-	printdbg(labels)
         summary = bug['title']
         desc = bug['body']
         submitted_by = self.__get_user(bug['user']['login'])
